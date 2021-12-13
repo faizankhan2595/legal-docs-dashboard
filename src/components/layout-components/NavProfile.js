@@ -46,9 +46,9 @@ export const NavProfile = () => {
     history.push(`/auth/login`);
   };
 
-  const saveuser = () => {
+  const saveuser = (profile_pic) => {
     var url = API_BASE_URL + "save-profile-avatar";
-    var data = { profile_pic: avatarURL };
+    var data = { profile_pic: profile_pic };
 
     axios.post(url, data, {}).then((response) => {});
   };
@@ -62,7 +62,7 @@ export const NavProfile = () => {
     if (info.file.status === "done") {
       setAvatarURL(info.file.response.url);
       localStorage.setItem("avatarURL", info.file.response.url);
-      saveuser();
+      saveuser(info.file.response.url);
       message.success({ content: "Uploaded!", key, duration: 1.5 });
     }
   };
