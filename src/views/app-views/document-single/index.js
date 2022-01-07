@@ -371,7 +371,9 @@ const DocumentSingle = (props) => {
             extra={
               <>
                 {status === "Payment Request Generated" && (
-                  <Button type="primary" className={"mr-2"} onClick={showModal}>
+                  <Button type="primary" className={"mr-2"} onClick={()=> {
+                    window.location.href = `https://documentsattestations.com/checkout/?order_id${props.match.params.id}&token=${localStorage.getItem("token")}`;
+                  }}>
                     Make Payment
                   </Button>
                 )}

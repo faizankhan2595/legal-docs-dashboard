@@ -30,8 +30,7 @@ const MakePayment = (props) => {
           readOnly
           style={{ width: "100%" }}
           min={0}
-          max={10000000}
-          defaultValue={1000}
+          value={props.totalPrice}
           formatter={(value) =>
             `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
           }

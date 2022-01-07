@@ -5,6 +5,19 @@ import { API_BASE_URL } from "../../../constants/ApiConstant";
 import NumberFormat from "react-number-format";
 import { useHistory } from "react-router-dom";
 import moment from "moment";
+// import { initializeApp } from "firebase/app";
+
+// const firebaseConfig = {
+//   apiKey: "AIzaSyBGyzscBV90rsOfaRQs1ZXKr43RCp6Wjao",
+//   authDomain: "earth-s-lab.firebaseapp.com",
+//   databaseURL: "https://earth-s-lab.firebaseio.com",
+//   projectId: "earth-s-lab",
+//   storageBucket: "earth-s-lab.appspot.com",
+//   messagingSenderId: "860632506024",
+//   appId: "1:860632506024:web:f8f8cf470f689735856c9d",
+// };
+
+// const messaging = getMessagingFB();
 
 const Document = () => {
   const [orders, setOrders] = useState([]);
@@ -108,6 +121,8 @@ const Document = () => {
 
   useEffect(() => {
     getOrders();
+    // const app = initializeApp(firebaseConfig);
+    // console.log(app);
   }, []);
 
   return (
