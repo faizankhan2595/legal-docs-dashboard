@@ -12,6 +12,8 @@ import {
   Input,
   Form,
   message,
+  Select,
+  Checkbox
 } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
 import { FileOutlined, SendOutlined } from "@ant-design/icons";
@@ -23,6 +25,260 @@ import RequestPayment from "./RequestPayment";
 // import { io } from "socket.io-client";
 const { Title, Text } = Typography;
 const { TextArea } = Input;
+const { Option } = Select;
+
+const countries = [
+	"Afghanistan",
+	"Albania",
+	"Algeria",
+	"American Samoa",
+	"Andorra",
+	"Angola",
+	"Anguilla",
+	"Antarctica",
+	"Antigua and Barbuda",
+	"Argentina",
+	"Armenia",
+	"Aruba",
+	"Australia",
+	"Austria",
+	"Azerbaijan",
+	"Bahamas",
+	"Bahrain",
+	"Bangladesh",
+	"Barbados",
+	"Belarus",
+	"Belgium",
+	"Belize",
+	"Benin",
+	"Bermuda",
+	"Bhutan",
+	"Bolivia (Plurinational State of)",
+	"Bonaire, Sint Eustatius and Saba",
+	"Bosnia and Herzegovina",
+	"Botswana",
+	"Bouvet Island",
+	"Brazil",
+	"British Indian Ocean Territory",
+	"Brunei Darussalam",
+	"Bulgaria",
+	"Burkina Faso",
+	"Burundi",
+	"Cabo Verde",
+	"Cambodia",
+	"Cameroon",
+	"Canada",
+	"Cayman Islands",
+	"Central African Republic",
+	"Chad",
+	"Chile",
+	"China",
+	"Christmas Island",
+	"Cocos (Keeling) Islands",
+	"Colombia",
+	"Comoros",
+	"Congo (the Democratic Republic of the)",
+	"Congo",
+	"Cook Islands",
+	"Costa Rica",
+	"Croatia",
+	"Cuba",
+	"Curaçao",
+	"Cyprus",
+	"Czechia",
+	"Côte d'Ivoire",
+	"Denmark",
+	"Djibouti",
+	"Dominica",
+	"Dominican Republic",
+	"Ecuador",
+	"Egypt",
+	"El Salvador",
+	"Equatorial Guinea",
+	"Eritrea",
+	"Estonia",
+	"Eswatini",
+	"Ethiopia",
+	"Falkland Islands [Malvinas]",
+	"Faroe Islands",
+	"Fiji",
+	"Finland",
+	"France",
+	"French Guiana",
+	"French Polynesia",
+	"French Southern Territories",
+	"Gabon",
+	"Gambia",
+	"Georgia",
+	"Germany",
+	"Ghana",
+	"Gibraltar",
+	"Greece",
+	"Greenland",
+	"Grenada",
+	"Guadeloupe",
+	"Guam",
+	"Guatemala",
+	"Guernsey",
+	"Guinea",
+	"Guinea-Bissau",
+	"Guyana",
+	"Haiti",
+	"Heard Island and McDonald Islands",
+	"Holy See",
+	"Honduras",
+	"Hong Kong",
+	"Hungary",
+	"Iceland",
+	"India",
+	"Indonesia",
+	"Iran (Islamic Republic of)",
+	"Iraq",
+	"Ireland",
+	"Isle of Man",
+	"Israel",
+	"Italy",
+	"Jamaica",
+	"Japan",
+	"Jersey",
+	"Jordan",
+	"Kazakhstan",
+	"Kenya",
+	"Kiribati",
+	"Korea (the Democratic People's Republic of)",
+	"Korea (the Republic of)",
+	"Kuwait",
+	"Kyrgyzstan",
+	"Lao People's Democratic Republic",
+	"Latvia",
+	"Lebanon",
+	"Lesotho",
+	"Liberia",
+	"Libya",
+	"Liechtenstein",
+	"Lithuania",
+	"Luxembourg",
+	"Macao",
+	"Madagascar",
+	"Malawi",
+	"Malaysia",
+	"Maldives",
+	"Mali",
+	"Malta",
+	"Marshall Islands",
+	"Martinique",
+	"Mauritania",
+	"Mauritius",
+	"Mayotte",
+	"Mexico",
+	"Micronesia (Federated States of)",
+	"Moldova (the Republic of)",
+	"Monaco",
+	"Mongolia",
+	"Montenegro",
+	"Montserrat",
+	"Morocco",
+	"Mozambique",
+	"Myanmar",
+	"Namibia",
+	"Nauru",
+	"Nepal",
+	"Netherlands",
+	"New Caledonia",
+	"New Zealand",
+	"Nicaragua",
+	"Niger",
+	"Nigeria",
+	"Niue",
+	"Norfolk Island",
+	"Northern Mariana Islands",
+	"Norway",
+	"Oman",
+	"Pakistan",
+	"Palau",
+	"Palestine, State of",
+	"Panama",
+	"Papua New Guinea",
+	"Paraguay",
+	"Peru",
+	"Philippines",
+	"Pitcairn",
+	"Poland",
+	"Portugal",
+	"Puerto Rico",
+	"Qatar",
+	"Republic of North Macedonia",
+	"Romania",
+	"Russian Federation",
+	"Rwanda",
+	"Réunion",
+	"Saint Barthélemy",
+	"Saint Helena, Ascension and Tristan da Cunha",
+	"Saint Kitts and Nevis",
+	"Saint Lucia",
+	"Saint Martin (French part)",
+	"Saint Pierre and Miquelon",
+	"Saint Vincent and the Grenadines",
+	"Samoa",
+	"San Marino",
+	"Sao Tome and Principe",
+	"Saudi Arabia",
+	"Senegal",
+	"Serbia",
+	"Seychelles",
+	"Sierra Leone",
+	"Singapore",
+	"Sint Maarten (Dutch part)",
+	"Slovakia",
+	"Slovenia",
+	"Solomon Islands",
+	"Somalia",
+	"South Africa",
+	"South Georgia and the South Sandwich Islands",
+	"South Sudan",
+	"Spain",
+	"Sri Lanka",
+	"Sudan",
+	"Suriname",
+	"Svalbard and Jan Mayen",
+	"Sweden",
+	"Switzerland",
+	"Syrian Arab Republic",
+	"Taiwan",
+	"Tajikistan",
+	"Tanzania, United Republic of",
+	"Thailand",
+	"Timor-Leste",
+	"Togo",
+	"Tokelau",
+	"Tonga",
+	"Trinidad and Tobago",
+	"Tunisia",
+	"Turkey",
+	"Turkmenistan",
+	"Turks and Caicos Islands",
+	"Tuvalu",
+	"Uganda",
+	"Ukraine",
+	"United Arab Emirates",
+	"United Kingdom of Great Britain and Northern Ireland",
+	"United States Minor Outlying Islands",
+	"United States of America",
+	"Uruguay",
+	"Uzbekistan",
+	"Vanuatu",
+	"Venezuela (Bolivarian Republic of)",
+	"Viet Nam",
+	"Virgin Islands (British)",
+	"Virgin Islands (U.S.)",
+	"Wallis and Futuna",
+	"Western Sahara",
+	"Yemen",
+	"Zambia",
+	"Zimbabwe",
+	"Åland Islands"
+];
+
 
 function msgReducer(state, action) {
   if (action.type === "NEW_MESSAGE") {
@@ -59,6 +315,19 @@ const DocumentSingle = (props) => {
 
   let formRef = React.createRef();
   const inputEl = useRef(null);
+
+  const [email, setEmail] = useState('');
+  const [contactNumber, setContactNumber] = useState('');
+  const [address, setAddress] = useState('');
+  const [city, setCity] = useState('');
+  const [state2, setState2] = useState('');
+  const [country, setCountry] = useState('');
+  const [serviceType, setServiceType] = useState('');
+  const [centralDocs, setCentralDocs] = useState(false);
+  const [stateProvinceDocs, setStateProvinceDocs] = useState(false);
+  const [notary, setNotary] = useState(false);
+  const [verification, setVerification] = useState(false);
+  const [equalization, setEqualization] = useState(false);
 
   useEffect(() => {
     getOrder(props.match.params.id);
@@ -125,6 +394,20 @@ const DocumentSingle = (props) => {
         setFileListDocs(TempFileListDocs);
         setFileListAdminDocs(TempFileListAdminDocs);
         setDetails(response.data.details);
+
+        setEmail(response.data.email);
+        setContactNumber(response.data.contact_number);
+        setAddress(response.data.address);
+        setCity(response.data.city);
+        setState2(response.data.state);
+        setCountry(response.data.country);
+        setServiceType(response.data.service_type);
+        setCentralDocs(response.data.centralDocuments == 1 ? true : false);
+        setStateProvinceDocs(response.data.stateDocuments == 1 ? true : false);
+        setNotary(response.data.notaryDocuments == 1 ? true : false);
+        setVerification(response.data.verificationDocuments == 1 ? true : false);
+        setEqualization(response.data.equalizationDocuments == 1 ? true : false);
+        
         dispatch({
           type: "ALL_MESSAGES",
           messages: response.data.msg_list ? response.data.msg_list : [],
@@ -241,6 +524,18 @@ const DocumentSingle = (props) => {
       doc_urls: docURLs,
       legalized_urls: adminDocs,
       details: details,
+      email: email,
+      contact_number: contactNumber,
+      address: address,
+      city: city,
+      state: state2,
+      country: country,
+      service_type: serviceType,
+      centralDocuments: centralDocs ? '1' : '0',
+      stateDocuments: stateProvinceDocs ? '1' : '0',
+      notaryDocuments: notary ? '1' : '0',
+      verificationDocuments: verification ? '1' : '0',
+      equalizationDocuments: equalization ? '1' : '0',
     };
 
     axios.post(url, data, {}).then((response) => {
@@ -478,10 +773,10 @@ const DocumentSingle = (props) => {
                     Payment Completed
                   </Timeline.Item>
                   <Timeline.Item color={statusLevel >= 4 ? "green" : "gray"}>
-                    Sent For Attestation
+                    Processing your documents
                   </Timeline.Item>
                   <Timeline.Item color={statusLevel >= 5 ? "green" : "gray"}>
-                    Attested Documents Uploaded
+                    Documents Uploaded
                   </Timeline.Item>
                   <Timeline.Item color={statusLevel >= 6 ? "green" : "gray"}>
                     Documents Downloaded
@@ -492,16 +787,89 @@ const DocumentSingle = (props) => {
                 </Timeline>
               </Col>
               <Col xs={24} sm={24} md={24} lg={8}>
-                <Title level={4} className={"mb-4"}>
+                {/* <Title level={4} className={"mb-4"}>
                   Your Form
                 </Title>
-                <Upload {...uploadPropsForm} fileList={fileListForm}></Upload>
+                <Upload {...uploadPropsForm} fileList={fileListForm}></Upload> */}
+                <Title level={5} className={"mt-4"} >
+                  Email
+                </Title>
+
+                <Input placeholder="Email" type={"email"} readOnly  value={email} onChange={(e)=>setEmail(e.target.value)} />
+
+                <Title level={5} className={"mt-4"} >
+                  Contact Number
+                </Title>
+
+                <Input placeholder="Contact Number" readOnly value={contactNumber} onChange={(e)=>setContactNumber(e.target.value)} />
+
+                <Title level={5} className={"mt-4"}>
+                  Address
+                </Title>
+
+                <Input placeholder="Address" readOnly value={address} onChange={(e)=>setAddress(e.target.value)}/>
+
+                <Title level={5} className={"mt-4"}>
+                  City
+                </Title>
+
+                <Input placeholder="City" readOnly value={city} onChange={(e)=>setCity(e.target.value)}/>
+                
+                <Title level={5} className={"mt-4"}>
+                  State
+                </Title>
+
+                <Input placeholder="State" readOnly value={state2} onChange={(e)=>setState2(e.target.value)} />
+
+                <Title level={5} className={"mt-4"}>
+                  Country
+                </Title>
+
+                <Select value={country} readOnly style={{ width: '100%' }}>
+                  {countries.map((el, key) => (
+                    <Option value={el} key={key}>
+                      {el}
+                    </Option>
+                  ))}
+                </Select>
+
+                <Title level={5} className={"mt-4"}>
+                  Service Type
+                </Title>
+
+                <Select readOnly value={serviceType} style={{ width: '100%' }}>
+                  {['Document Attestion', 'Apostille', 'Notary', 'Legalization of Documents', 'University Degree Authentication', 'Legal Document Attestation'].map((el, key) => (
+                    <Option value={el} key={key}>
+                      {el}
+                    </Option>
+                  ))}
+                </Select>
+
+
+                <Title level={5} className={"mt-4"}>
+                  Select Options
+                </Title>
+
+                <div style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "flex-start",
+                  justifyContent: "flex-start",
+                }}>
+                  <Checkbox checked={centralDocs} style={{marginLeft: "8px"}}>
+                    Central/Federal Documents
+                  </Checkbox>
+                  <Checkbox checked={stateProvinceDocs}>State/Province Documents</Checkbox>
+                  <Checkbox checked={notary}>Notary</Checkbox>
+                  <Checkbox checked={verification}>Verification</Checkbox>
+                  <Checkbox checked={equalization}>Equalization</Checkbox>
+                </div>
+              </Col>
+              <Col xs={24} sm={24} md={24} lg={8}>
                 <Title level={4} className={"mb-4 mt-4"}>
                   Your Documents
                 </Title>
                 <Upload {...uploadPropsDocs} fileList={fileListDocs}></Upload>
-              </Col>
-              <Col xs={24} sm={24} md={24} lg={8}>
                 <Title level={4} className={"mb-4"}>
                   Attested Documents
                 </Title>
